@@ -29,7 +29,7 @@ let
       grpc = {
         address = lib.mkOption {
           type = lib.types.str;
-          default = "127.0.0.1:3131";
+          default = "http://localhost:3131";
           description = "Address for the GRPC API.";
         };
       };
