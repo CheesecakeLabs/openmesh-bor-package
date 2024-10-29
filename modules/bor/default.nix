@@ -58,6 +58,12 @@ let
         description = "Additional arguments for the Bor executable.";
       };
 
+      bootNodes = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = ["enode://b8f1cc9c5d4403703fbf377116469667d2b1823c0daf16b7250aa576bacf399e42c3930ccfcb02c5df6879565a2b8931335565f0e8d3f8e72385ecf4a4bf160a@3.36.224.80:30303" "enode://8729e0c825f3d9cad382555f3e46dcff21af323e89025a0e6312df541f4a9e73abfa562d64906f5e59c51fe6f0501b3e61b07979606c56329c020ed739910759@54.194.245.5:30303"];
+        description = "List of bootnodes to connect to.";
+      };
+
       package = lib.mkPackageOption pkgs [ "bor" ] { };
     };
   };
@@ -98,6 +104,7 @@ in {
               --gcmode ${cfg.gcmode} \
               --grpc.addr ${cfg.grpc.address} \
               --bor.heimdall ${cfg.heimdallUrl} \
+              --bootnodes ${lib.concatStringsSep "," cfg.bootNodes} \
               --verbosity ${toString cfg.verbosity} \
               ${lib.optionalString cfg.logs "--log"} \
               ${lib.escapeShellArgs cfg.extraArgs}
