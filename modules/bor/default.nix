@@ -72,7 +72,7 @@ in {
   ###### Interface
   options = {
     services.bor = lib.mkOption {
-      type = (lib.types.submodule borOpts);
+      type = (lib.types.attrsOf (lib.types.submodule borOpts));
       default = {};
       description = "Specification of one or more Bor node instances.";
     };
