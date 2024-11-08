@@ -21,6 +21,7 @@ in
   options = {
     services.bor = {
       enable = mkEnableOption "Polygon Bor Node";
+      package = mkPackageOption pkgs "bor" { };
 
       chain = mkOption {
         type = types.str;
@@ -80,15 +81,11 @@ in
         ];
         description = "List of bootnodes to connect to.";
       };
-
-      package = mkPackageOption pkgs [ "bor" ] { };
     };
   };
 
-  ###### Implementation
   config = mkIf cfg.enable {
-
-    environment.systemPackages = [ pkgs.bor ];
+    environment.systemPackages = [ cfg.package ];
 
     systemd.services.bor = {
       description = "Polygon Bor Node";
