@@ -43,7 +43,7 @@ in
       grpc = {
         address = mkOption {
           type = types.str;
-          default = "http://localhost:3131";
+          default = "localhost:3131";
           description = "Address for the GRPC API.";
         };
       };
@@ -56,7 +56,7 @@ in
 
       heimdallUrl = mkOption {
         type = types.str;
-        default = "http://localhost:1317";
+        default = "localhost:1317";
         description = "URL of the Heimdall service.";
       };
 
