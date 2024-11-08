@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  eachBor = { default = config.services.bor; };
+  eachBor = if lib.isAttrs config.services.bor then config.services.bor else { default = config.services.bor; };
 
   borOpts = { config, lib, name, ... }: {
     options = {
@@ -72,9 +72,11 @@ in {
   ###### Interface
   options = {
     services.bor = lib.mkOption {
-      type = (lib.types.attrsOf (lib.types.submodule borOpts));
+      type = lib.types.either
+        (lib.types.attrsOf (lib.types.submodule borOpts))
+        (lib.types.submodule borOpts);
       default = {};
-      description = "Specification of one or more Bor node instances.";
+      description = "Specification of one or more Bor node instances or a single Bor node configuration.";
     };
   };
 
