@@ -91,8 +91,6 @@ in
     environment.systemPackages = [ pkgs.bor ];
 
     systemd.services.bor = {
-      stateDir = "polygon/bor/${cfg.chain}";
-      dataDir = "/var/lib/${stateDir}";
       description = "Polygon Bor Node";
       wantedBy = [ "multi-user.target" ];
       after = [ "network-online.target" ];
@@ -101,7 +99,7 @@ in
       serviceConfig = {
         ExecStart = ''
           ${cfg.package}/bin/bor server \
-            --datadir ${dataDir} \
+            --datadir '/var/lib/polygon/bor/${cfg.chain}' \
             --chain ${cfg.chain} \
             --syncmode ${cfg.syncmode} \
             --gcmode ${cfg.gcmode} \
@@ -115,7 +113,7 @@ in
         DynamicUser = true;
         Restart = "always";
         RestartSec = 5;
-        StateDirectory = stateDir;
+        StateDirectory = "polygon/bor/${cfg.chain}";
 
         # Hardening options
         PrivateTmp = true;
