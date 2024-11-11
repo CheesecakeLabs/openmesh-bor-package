@@ -2,17 +2,17 @@
 
 buildGoModule rec {
   pname = "polygon-bor";
-  version = "1.4.1";
+  version = "1.5.2";
 
   src = fetchFromGitHub {
     owner = "maticnetwork";
     repo = "bor";
     rev = "v${version}";
-    sha256 = "0kb15711szsk1mq651j4gra8xvqsm3g0bpggzc95mnazkw9m0749"; # retrieved using nix-prefetch-url
+    sha256 = "sha256-Ndttrar4sYiTKicvEUR1fUVTwveXA/qeTppEHNynYKc="; # retrieved using nix-prefetch-url
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-yp/sGhbqMYFtShH32YMViOZCoBP1O0ck/jqwwg3fcfY=";
+  vendorHash = "sha256-az/hDuhRU8NJ6ph9+KamfVGiaxPitOATXnxDIzHca20=";
 
   doCheck = false;
 
