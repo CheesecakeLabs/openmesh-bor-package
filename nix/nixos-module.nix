@@ -7,7 +7,7 @@
 
 let
   cfg = config.services.bor;
-  bor = pkgs.callPackage ../../pkgs/bor/default.nix {
+  bor = pkgs.callPackage ./package.nix {
     lib = pkgs.lib;
     stdenv = pkgs.stdenv;
     buildGoModule = pkgs.buildGoModule;
@@ -93,8 +93,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ];
-
     systemd.services.bor = {
       description = "Polygon Bor Node";
       wantedBy = [ "multi-user.target" ];

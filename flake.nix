@@ -31,7 +31,7 @@
       packages = eachSystem (
         { pkgs, ... }:
         {
-          default = pkgs.callPackage ./pkgs/bor/default.nix {
+          default = pkgs.callPackage ./nix/package.nix {
             lib = pkgs.lib;
             stdenv = pkgs.stdenv;
             buildGoModule = pkgs.buildGoModule;
@@ -43,6 +43,6 @@
       );
 
       # NixOS module output for Bor
-      nixosModules.default = import ./modules/bor/default.nix;
+      nixosModules.default = import ./nix/nixos-module.nix;
     };
 }
