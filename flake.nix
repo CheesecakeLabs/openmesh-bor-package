@@ -2,9 +2,8 @@
   description = "Polygon Bor Node";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     systems.url = "github:nix-systems/default";
-    flake-compat.url = "github:nix-community/flake-compat";
   };
 
   outputs =
