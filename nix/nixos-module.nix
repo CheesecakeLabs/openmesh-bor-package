@@ -6,8 +6,8 @@
 }:
 
 let
-  cfg = config.services.bor;
-  bor = pkgs.callPackage ./package.nix {
+  cfg = config.services.polygon-bor;
+  polygon-bor = pkgs.callPackage ./package.nix {
     lib = pkgs.lib;
     stdenv = pkgs.stdenv;
     buildGoModule = pkgs.buildGoModule;
@@ -18,7 +18,7 @@ let
 in
 {
   options = {
-    services.bor = {
+    services.polygon-bor = {
       enable = lib.mkEnableOption "Polygon Bor Node";
 
       chain = lib.mkOption {
@@ -83,7 +83,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    systemd.services.bor = {
+    systemd.services.polygon-bor = {
       description = "Polygon Bor Node";
       wantedBy = [ "multi-user.target" ];
       after = [ "network-online.target" ];

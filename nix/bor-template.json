@@ -1,7 +1,7 @@
 {
   "name": "Bor (Polygon)",
   "desc": "Bor is the Ethereum-compatible client of the Polygon network.",
-  "nixName": "bor",
+  "nixName": "polygon-bor",
   "specs": {
     "ram": 16384,
     "storage": 4194304

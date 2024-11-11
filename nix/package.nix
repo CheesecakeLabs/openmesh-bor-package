@@ -1,7 +1,7 @@
 { lib, stdenv, buildGoModule, fetchFromGitHub, libobjc, IOKit }:
 
 buildGoModule rec {
-  pname = "bor";
+  pname = "polygon-bor";
   version = "1.4.1";
 
   src = fetchFromGitHub {
