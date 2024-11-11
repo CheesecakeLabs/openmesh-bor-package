@@ -37,6 +37,7 @@ in buildGoModule rec {
     lib.optionals stdenv.isDarwin [ libobjc IOKit ];
 
   meta = with lib; {
+    mainProgram = "bor";
     description = "Bor is an Ethereum-compatible sidechain for the Polygon network";
     homepage = "https://github.com/maticnetwork/bor";
     license = with licenses; [ mit ];

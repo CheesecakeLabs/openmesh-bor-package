@@ -7,6 +7,14 @@
 
 let
   cfg = config.services.bor;
+  bor = pkgs.callPackage ../../pkgs/bor/default.nix {
+    lib = pkgs.lib;
+    stdenv = pkgs.stdenv;
+    buildGoModule = pkgs.buildGoModule;
+    fetchFromGitHub = pkgs.fetchFromGitHub;
+    libobjc = pkgs.darwin.libobjc;
+    IOKit = pkgs.darwin.IOKit;
+  };
 
   inherit (lib)
     mkEnableOption

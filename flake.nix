@@ -3,25 +3,35 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
+    systems.url = "github:nix-systems/default";
     flake-compat.url = "github:nix-community/flake-compat";
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      systems,
+      ...
+    }:
     let
-      # Supported architectures: x86_64 and aarch64
-      supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-      # Import Nixpkgs for all systems
-      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
+      # A helper that helps us define the attributes below for
+      # all systems we care about.
+      eachSystem =
+        f:
+        nixpkgs.lib.genAttrs (import systems) (
+          system:
+          f {
+            inherit system;
+            pkgs = nixpkgs.legacyPackages.${system};
+          }
+        );
     in
     {
-      # Define the Bor package for all systems
-      packages = forAllSystems (system:
-        let
-          pkgs = nixpkgsFor.${system};
-        in {
-          bor = import ./pkgs/bor/default.nix {
+      packages = eachSystem (
+        { pkgs, ... }:
+        {
+          default = pkgs.callPackage ./pkgs/bor/default.nix {
             lib = pkgs.lib;
             stdenv = pkgs.stdenv;
             buildGoModule = pkgs.buildGoModule;
@@ -29,20 +39,6 @@
             libobjc = pkgs.darwin.libobjc;
             IOKit = pkgs.darwin.IOKit;
           };
-        }
-      );
-
-      # Make Bor the default package
-      defaultPackage = forAllSystems (system: self.packages.${system}.bor);
-
-      # Define devShell for development
-      devShell = forAllSystems (system: 
-        nixpkgsFor.${system}.mkShell {
-          nativeBuildInputs = [
-            self.packages.${system}.bor
-            nixpkgsFor.${system}.go
-            nixpkgsFor.${system}.git
-          ];
         }
       );
 
