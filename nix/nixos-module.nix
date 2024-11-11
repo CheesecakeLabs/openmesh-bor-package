@@ -1,7 +1,7 @@
 {
   config,
-  lib,
   pkgs,
+  lib,
   ...
 }:
 
@@ -15,74 +15,64 @@ let
     libobjc = pkgs.darwin.libobjc;
     IOKit = pkgs.darwin.IOKit;
   };
-
-  inherit (lib)
-    mkEnableOption
-    mkPackageOption
-    mkOption
-    types
-    mkIf
-    ;
 in
 {
-  ###### Interface
   options = {
     services.bor = {
-      enable = mkEnableOption "Polygon Bor Node";
-      package = mkPackageOption pkgs "bor" { };
+      enable = lib.mkEnableOption "Polygon Bor Node";
 
-      chain = mkOption {
-        type = types.str;
+      chain = lib.mkOption {
+        type = lib.types.str;
         default = "mainnet";
         description = "Name of the chain to sync ('amoy', 'mumbai', 'mainnet') or path to a genesis file.";
       };
 
-      syncmode = mkOption {
-        type = types.str;
+      syncmode = lib.mkOption {
+        type = lib.types.str;
         default = "full";
         description = "Blockchain sync mode (only 'full' is supported by Bor).";
       };
 
-      gcmode = mkOption {
-        type = types.str;
+      gcmode = lib.mkOption {
+        type = lib.types.str;
         default = "full";
         description = "Blockchain garbage collection mode.";
       };
 
       grpc = {
-        address = mkOption {
-          type = types.str;
+        address = lib.mkOption {
+          type = lib.types.str;
           default = "localhost:3131";
           description = "Address for the GRPC API.";
         };
       };
 
-      verbosity = mkOption {
-        type = types.int;
+      verbosity = lib.mkOption {
+        type = lib.types.int;
         default = 3;
         description = "Logging verbosity level (5=trace, 4=debug, 3=info, 2=warn, 1=error, 0=crit).";
       };
 
-      heimdallUrl = mkOption {
-        type = types.str;
+      heimdallUrl = lib.mkOption {
+        type = lib.types.str;
         default = "localhost:1317";
         description = "URL of the Heimdall service.";
       };
 
-      logs = mkOption {
-        type = types.bool;
+      logs = lib.mkOption {
+        type = lib.types.bool;
         default = false;
         description = "Enable log retrieval.";
       };
 
-      extraArgs = mkOption {
-        type = types.listOf types.str;
+      extraArgs = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
         default = [ ];
         description = "Additional arguments for the Bor executable.";
       };
 
-      bootNodes = mkOption {
-        type = types.listOf types.str;
+      bootNodes = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
         default = [
           "enode://b8f1cc9c5d4403703fbf377116469667d2b1823c0daf16b7250aa576bacf399e42c3930ccfcb02c5df6879565a2b8931335565f0e8d3f8e72385ecf4a4bf160a@3.36.224.80:30303"
           "enode://8729e0c825f3d9cad382555f3e46dcff21af323e89025a0e6312df541f4a9e73abfa562d64906f5e59c51fe6f0501b3e61b07979606c56329c020ed739910759@54.194.245.5:30303"
@@ -92,7 +82,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     systemd.services.bor = {
       description = "Polygon Bor Node";
       wantedBy = [ "multi-user.target" ];
