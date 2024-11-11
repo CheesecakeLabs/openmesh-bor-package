@@ -1,8 +1,6 @@
 { lib, stdenv, buildGoModule, fetchFromGitHub, libobjc, IOKit }:
 
-let
-
-in buildGoModule rec {
+buildGoModule rec {
   pname = "bor";
   version = "1.4.1";
 
