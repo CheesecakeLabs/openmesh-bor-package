@@ -91,7 +91,7 @@ in
 
       serviceConfig = {
         ExecStart = ''
-          ${cfg.package}/bin/bor server \
+          ${polygon-bor}/bin/bor server \
             --datadir '/var/lib/polygon/bor/${cfg.chain}' \
             --chain ${cfg.chain} \
             --syncmode ${cfg.syncmode} \
