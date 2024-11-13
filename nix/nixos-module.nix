@@ -116,7 +116,20 @@ in
         };
       };
 
+      grpc = {
+        addr = lib.mkOption {
+          type = lib.types.str;
+          default = ":3131";
+          description = "gRPC server listening interface.";
+        };
+      };
+
       bor = {
+        heimdall = lib.mkOption {
+          type = lib.types.str;
+          default = "http://0.0.0.0:1317";
+          description = "URL of Heimdall service.";
+        };
         runheimdall = lib.mkOption {
           type = lib.types.bool;
           default = false;
@@ -178,6 +191,7 @@ in
           --http.ep-requesttimeout ${cfg.http.ep-requesttimeout} \
           --http.ep-size ${toString cfg.http.ep-size} \
           --http.port ${toString cfg.http.port} \
+          --grpc.addr ${cfg.grpc.addr} \
           ${lib.optionalString cfg.ws.enable "--ws"} \
           ${lib.optionalString cfg.ws.enable "--ws.addr ${cfg.ws.addr}"} \
           ${lib.optionalString cfg.ws.enable "--ws.api ${cfg.ws.api}"} \
@@ -186,6 +200,7 @@ in
           ${lib.optionalString cfg.ws.enable "--ws.origins ${cfg.ws.origins}"} \
           ${lib.optionalString cfg.ws.enable "--ws.port ${toString cfg.ws.port}"} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdall"} \
+          ${lib.optionalString cfg.bor.runheimdall "--bor.heimdall ${cfg.bor.heimdall}"} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdallargs ${lib.escapeShellArgs cfg.bor.runheimdallargs}"} \
           ${lib.optionalString cfg.bor.useheimdallapp "--bor.useheimdallapp"} \
           --bootnodes ${lib.concatStringsSep "," cfg.bootNodes} \

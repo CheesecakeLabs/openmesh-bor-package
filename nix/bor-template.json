@@ -88,20 +88,6 @@
       "value": 8545
     },
     {
-      "name": "http.rpcprefix",
-      "desc": "HTTP path prefix for JSON-RPC.",
-      "nixName": "http.rpcprefix",
-      "type": "string",
-      "value": ""
-    },
-    {
-      "name": "http.vhosts",
-      "desc": "Comma separated list of virtual hostnames for HTTP requests.",
-      "nixName": "http.vhosts",
-      "type": "string",
-      "value": "localhost"
-    },
-    {
       "name": "ws.enable",
       "desc": "Enable the WS-RPC server.",
       "nixName": "ws.enable",
