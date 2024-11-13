@@ -126,14 +126,6 @@ in
         };
       };
 
-      grpc = {
-        addr = lib.mkOption {
-          type = lib.types.str;
-          default = ":3131";
-          description = "Address for the GRPC API.";
-        };
-      };
-
       bor = {
         heimdall = lib.mkOption {
           type = lib.types.str;
@@ -210,7 +202,6 @@ in
           ${lib.optionalString cfg.ws.enable "--ws.origins ${cfg.ws.origins}"} \
           ${lib.optionalString cfg.ws.enable "--ws.port ${toString cfg.ws.port}"} \
           ${lib.optionalString cfg.ws.enable "--ws.rpcprefix ${cfg.ws.rpcprefix}"} \
-          --grpc.addr ${cfg.grpc.addr} \
           --bor.heimdall ${cfg.bor.heimdall} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdall"} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdallargs ${lib.escapeShellArgs cfg.bor.runheimdallargs}"} \
