@@ -24,51 +24,154 @@ in
       chain = lib.mkOption {
         type = lib.types.str;
         default = "mainnet";
-        description = "Name of the chain to sync ('amoy', 'mumbai', 'mainnet') or path to a genesis file.";
+        description = "Name of the chain to sync ('amoy', 'mumbai', 'mainnet').";
       };
 
-      syncmode = lib.mkOption {
-        type = lib.types.str;
-        default = "full";
-        description = "Blockchain sync mode (only 'full' is supported by Bor).";
+      authrpc = {
+        addr = lib.mkOption {
+          type = lib.types.str;
+          default = "localhost";
+          description = "Listening address for authenticated APIs";
+        };
+        port = lib.mkOption {
+          type = lib.types.int;
+          default = 8551;
+          description = "Listening port for authenticated APIs";
+        };
+        vhosts = lib.mkOption {
+          type = lib.types.str;
+          default = "localhost";
+          description = "Comma separated list of virtual hostnames from which to accept requests (server enforced). Accepts '*' wildcard.";
+        };
       };
 
-      gcmode = lib.mkOption {
-        type = lib.types.str;
-        default = "full";
-        description = "Blockchain garbage collection mode.";
+      http = {
+        addr = lib.mkOption {
+          type = lib.types.str;
+          default = "localhost";
+          description = "HTTP-RPC server listening interface.";
+        };
+        api = lib.mkOption {
+          type = lib.types.str;
+          default = "eth,net,web3,txpool,bor";
+          description = "API's offered over the HTTP-RPC interface.";
+        };
+        corsdomain = lib.mkOption {
+          type = lib.types.str;
+          default = "localhost";
+          description = "Comma separated list of domains from which to accept cross origin requests (browser enforced).";
+        };
+        ep-requesttimeout = lib.mkOption {
+          type = lib.types.str;
+          default = "0s";
+          description = "Request Timeout for rpc execution pool for HTTP requests.";
+        };
+        ep-size = lib.mkOption {
+          type = lib.types.int;
+          default = 40;
+          description = "Maximum size of workers to run in rpc execution pool for HTTP requests.";
+        };
+        port = lib.mkOption {
+          type = lib.types.int;
+          default = 8545;
+          description = "HTTP-RPC server listening port.";
+        };
+        rpcprefix = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+          description = "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
+        };
+        vhosts = lib.mkOption {
+          type = lib.types.str;
+          default = "localhost";
+          description = "Comma separated list of virtual hostnames from which to accept requests (server enforced). Accepts '*' wildcard.";
+        };
+      };
+      
+      ws = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Enable the WS-RPC server.";
+        };
+        addr = lib.mkOption {
+          type = lib.types.str;
+          default = "localhost";
+          description = "WS-RPC server listening interface.";
+        };
+        api = lib.mkOption {
+          type = lib.types.str;
+          default = "net,web3";
+          description = "API's offered over the WS-RPC interface.";
+        };
+        ep-requesttimeout = lib.mkOption {
+          type = lib.types.str;
+          default = "0s";
+          description = "Request Timeout for rpc execution pool for WS requests.";
+        };
+        ep-size = lib.mkOption {
+          type = lib.types.int;
+          default = 40;
+          description = "Maximum size of workers to run in rpc execution pool for WS requests.";
+        };
+        origins = lib.mkOption {
+          type = lib.types.str;
+          default = "localhost";
+          description = "Origins from which to accept websockets requests.";
+        };
+        port = lib.mkOption {
+          type = lib.types.int;
+          default = 8546;
+          description = "WS-RPC server listening port.";
+        };
+        rpcprefix = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+          description = "HTTP path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
+        };
       };
 
       grpc = {
-        address = lib.mkOption {
+        addr = lib.mkOption {
           type = lib.types.str;
-          default = "localhost:3131";
+          default = ":3131";
           description = "Address for the GRPC API.";
         };
       };
 
-      verbosity = lib.mkOption {
-        type = lib.types.int;
-        default = 3;
-        description = "Logging verbosity level (5=trace, 4=debug, 3=info, 2=warn, 1=error, 0=crit).";
-      };
-
-      heimdallUrl = lib.mkOption {
-        type = lib.types.str;
-        default = "localhost:1317";
-        description = "URL of the Heimdall service.";
-      };
-
-      logs = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Enable log retrieval.";
+      bor = {
+        heimdall = lib.mkOption {
+          type = lib.types.str;
+          default = "http://0.0.0.0:1317";
+          description = "URL of the Heimdall service.";
+        };
+        runheimdall = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Run Heimdall service.";
+        };
+        runheimdallargs = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Additional arguments for the Heimdall executable.";
+        };
+        useheimdallapp = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Use child heimdall process to fetch data, Only works when bor.runheimdall is true";
+        };
       };
 
       extraArgs = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [ ];
         description = "Additional arguments for the Bor executable.";
+      };
+
+      verbosity = lib.mkOption {
+        type = lib.types.int;
+        default = 3;
+        description = "Logging verbosity level (5=trace, 4=debug, 3=info, 2=warn, 1=error, 0=crit).";
       };
 
       bootNodes = lib.mkOption {
@@ -91,17 +194,39 @@ in
 
       serviceConfig = {
         ExecStart = ''
-          ${polygon-bor}/bin/bor server \
-            --datadir '/var/lib/polygon/bor/${cfg.chain}' \
-            --chain ${cfg.chain} \
-            --syncmode ${cfg.syncmode} \
-            --gcmode ${cfg.gcmode} \
-            --grpc.addr ${cfg.grpc.address} \
-            --bor.heimdall ${cfg.heimdallUrl} \
-            --bootnodes ${lib.concatStringsSep "," cfg.bootNodes} \
-            --verbosity ${toString cfg.verbosity} \
-            ${lib.optionalString cfg.logs "--log"} \
-            ${lib.escapeShellArgs cfg.extraArgs}
+        ${polygon-bor}/bin/bor server \
+          --datadir '/var/lib/polygon/bor/${cfg.chain}' \
+          --chain ${cfg.chain} \
+          --syncmode ${cfg.syncmode} \
+          --gcmode ${cfg.gcmode} \
+          --authrpc.addr ${cfg.authrpc.addr} \
+          --authrpc.port ${toString cfg.authrpc.port} \
+          --authrpc.vhosts ${cfg.authrpc.vhosts} \
+          --http.addr ${cfg.http.addr} \
+          --http.api ${cfg.http.api} \
+          --http.corsdomain ${cfg.http.corsdomain} \
+          --http.ep-requesttimeout ${cfg.http.ep-requesttimeout} \
+          --http.ep-size ${toString cfg.http.ep-size} \
+          --http.port ${toString cfg.http.port} \
+          --http.rpcprefix ${cfg.http.rpcprefix} \
+          --http.vhosts ${cfg.http.vhosts} \
+          ${lib.optionalString cfg.ws.enable "--ws"} \
+          ${lib.optionalString cfg.ws.enable "--ws.addr ${cfg.ws.addr}"} \
+          ${lib.optionalString cfg.ws.enable "--ws.api ${cfg.ws.api}"} \
+          ${lib.optionalString cfg.ws.enable "--ws.ep-requesttimeout ${cfg.ws.ep-requesttimeout}"} \
+          ${lib.optionalString cfg.ws.enable "--ws.ep-size ${toString cfg.ws.ep-size}"} \
+          ${lib.optionalString cfg.ws.enable "--ws.origins ${cfg.ws.origins}"} \
+          ${lib.optionalString cfg.ws.enable "--ws.port ${toString cfg.ws.port}"} \
+          ${lib.optionalString cfg.ws.enable "--ws.rpcprefix ${cfg.ws.rpcprefix}"} \
+          --grpc.addr ${cfg.grpc.addr} \
+          --bor.heimdall ${cfg.bor.heimdall} \
+          ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdall"} \
+          ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdallargs ${lib.escapeShellArgs cfg.bor.runheimdallargs}"} \
+          ${lib.optionalString cfg.bor.useheimdallapp "--bor.useheimdallapp"} \
+          --bootnodes ${lib.concatStringsSep "," cfg.bootNodes} \
+          --verbosity ${toString cfg.verbosity} \
+          ${lib.optionalString cfg.logs "--log"} \
+          ${lib.escapeShellArgs cfg.extraArgs}
         '';
         DynamicUser = true;
         Restart = "always";
@@ -120,5 +245,7 @@ in
       };
     };
 
+    networking.firewall.allowedTCPPorts = [ 30303 8545 8546 8547 9091 3001 7071 30301 26656 1317 ];
+    networking.firewall.allowedUDPPorts = [ 30303 8545 8546 8547 9091 3001 7071 30301 26656 1317 ];
   };
 }
