@@ -186,6 +186,13 @@
       "value": "false"
     },
     {
+      "name": "extraArgs",
+      "desc": "Additional arguments for the Bor executable.",
+      "nixName": "extraArgs",
+      "type": "list of string",
+      "value": "[]"
+    },
+    {
       "name": "verbosity",
       "desc": "Logging verbosity level (5=trace, 4=debug, 3=info, 2=warn, 1=error, 0=crit).",
       "nixName": "verbosity",
