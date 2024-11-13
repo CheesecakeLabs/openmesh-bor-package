@@ -197,8 +197,6 @@ in
         ${polygon-bor}/bin/bor server \
           --datadir '/var/lib/polygon/bor/${cfg.chain}' \
           --chain ${cfg.chain} \
-          --syncmode ${cfg.syncmode} \
-          --gcmode ${cfg.gcmode} \
           --authrpc.addr ${cfg.authrpc.addr} \
           --authrpc.port ${toString cfg.authrpc.port} \
           --authrpc.vhosts ${cfg.authrpc.vhosts} \
