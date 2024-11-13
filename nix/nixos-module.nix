@@ -223,7 +223,6 @@ in
           ${lib.optionalString cfg.bor.useheimdallapp "--bor.useheimdallapp"} \
           --bootnodes ${lib.concatStringsSep "," cfg.bootNodes} \
           --verbosity ${toString cfg.verbosity} \
-          ${lib.optionalString cfg.logs "--log"} \
           ${lib.escapeShellArgs cfg.extraArgs}
         '';
         DynamicUser = true;
