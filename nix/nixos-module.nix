@@ -81,6 +81,11 @@ in
           default = "";
           description = "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
         };
+        vhosts = lib.mkOption {
+          type = lib.types.str;
+          default = "*";
+          description = "Comma separated list of virtual hostnames from which to accept requests (server enforced). Accepts '*' wildcard.";
+        };
       };
       
       ws = {
