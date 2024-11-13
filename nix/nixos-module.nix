@@ -76,11 +76,6 @@ in
           default = 8545;
           description = "HTTP-RPC server listening port.";
         };
-        rpcprefix = lib.mkOption {
-          type = lib.types.str;
-          default = "";
-          description = "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
-        };
       };
       
       ws = {
@@ -118,11 +113,6 @@ in
           type = lib.types.int;
           default = 8546;
           description = "WS-RPC server listening port.";
-        };
-        rpcprefix = lib.mkOption {
-          type = lib.types.str;
-          default = "";
-          description = "HTTP path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
         };
       };
 
@@ -188,7 +178,6 @@ in
           --http.ep-requesttimeout ${cfg.http.ep-requesttimeout} \
           --http.ep-size ${toString cfg.http.ep-size} \
           --http.port ${toString cfg.http.port} \
-          --http.rpcprefix ${cfg.http.rpcprefix} \
           ${lib.optionalString cfg.ws.enable "--ws"} \
           ${lib.optionalString cfg.ws.enable "--ws.addr ${cfg.ws.addr}"} \
           ${lib.optionalString cfg.ws.enable "--ws.api ${cfg.ws.api}"} \
@@ -196,7 +185,6 @@ in
           ${lib.optionalString cfg.ws.enable "--ws.ep-size ${toString cfg.ws.ep-size}"} \
           ${lib.optionalString cfg.ws.enable "--ws.origins ${cfg.ws.origins}"} \
           ${lib.optionalString cfg.ws.enable "--ws.port ${toString cfg.ws.port}"} \
-          ${lib.optionalString cfg.ws.enable "--ws.rpcprefix ${cfg.ws.rpcprefix}"} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdall"} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdallargs ${lib.escapeShellArgs cfg.bor.runheimdallargs}"} \
           ${lib.optionalString cfg.bor.useheimdallapp "--bor.useheimdallapp"} \
