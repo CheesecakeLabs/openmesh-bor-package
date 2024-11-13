@@ -127,11 +127,6 @@ in
       };
 
       bor = {
-        heimdall = lib.mkOption {
-          type = lib.types.str;
-          default = "http://0.0.0.0:1317";
-          description = "URL of the Heimdall service.";
-        };
         runheimdall = lib.mkOption {
           type = lib.types.bool;
           default = false;
@@ -202,7 +197,6 @@ in
           ${lib.optionalString cfg.ws.enable "--ws.origins ${cfg.ws.origins}"} \
           ${lib.optionalString cfg.ws.enable "--ws.port ${toString cfg.ws.port}"} \
           ${lib.optionalString cfg.ws.enable "--ws.rpcprefix ${cfg.ws.rpcprefix}"} \
-          --bor.heimdall ${cfg.bor.heimdall} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdall"} \
           ${lib.optionalString cfg.bor.runheimdall "--bor.runheimdallargs ${lib.escapeShellArgs cfg.bor.runheimdallargs}"} \
           ${lib.optionalString cfg.bor.useheimdallapp "--bor.useheimdallapp"} \
