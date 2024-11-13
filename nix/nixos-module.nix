@@ -202,7 +202,6 @@ in
           --http.ep-size ${toString cfg.http.ep-size} \
           --http.port ${toString cfg.http.port} \
           --http.rpcprefix ${cfg.http.rpcprefix} \
-          --http.vhosts ${cfg.http.vhosts} \
           ${lib.optionalString cfg.ws.enable "--ws"} \
           ${lib.optionalString cfg.ws.enable "--ws.addr ${cfg.ws.addr}"} \
           ${lib.optionalString cfg.ws.enable "--ws.api ${cfg.ws.api}"} \
