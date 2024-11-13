@@ -11,298 +11,196 @@
   "logo": "https://polygon.technology/favicon.ico",
   "options": [
     {
-      "name": "<name>.devfakeauthor",
-      "desc": "Run miner without validator set authorization [dev mode].",
-      "nixName": "<name>.devfakeauthor",
+      "name": "enable",
+      "desc": "Enable Polygon Bor Node.",
+      "nixName": "enable",
       "type": "boolean",
-      "value": "false"
+      "value": "true"
     },
     {
-      "name": "<name>.heimdall",
-      "desc": "URL of Heimdall service.",
-      "nixName": "<name>.heimdall",
-      "type": "string",
-      "value": "http://localhost:1317"
-    },
-    {
-      "name": "<name>.heimdallgRPC",
-      "desc": "Address of Heimdall gRPC service.",
-      "nixName": "<name>.heimdallgRPC",
-      "type": "string",
-      "value": "null"
-    },
-    {
-      "name": "<name>.logs",
-      "desc": "Enables Bor log retrieval.",
-      "nixName": "<name>.logs",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.runheimdall",
-      "desc": "Run Heimdall service as a child process.",
-      "nixName": "<name>.runheimdall",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.runheimdallargs",
-      "desc": "Arguments to pass to Heimdall service.",
-      "nixName": "<name>.runheimdallargs",
-      "type": "null or (list of string)",
-      "value": "null"
-    },
-    {
-      "name": "<name>.useheimdallapp",
-      "desc": "Use child heimdall process to fetch data, only works when runheimdall is true.",
-      "nixName": "<name>.useheimdallapp",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.withoutheimdall",
-      "desc": "Run without Heimdall service (for testing purpose).",
-      "nixName": "<name>.withoutheimdall",
-      "type": "boolean",
-      "value": "false"
-    },
-    {
-      "name": "<name>.chain",
-      "desc": "Name of the chain to sync ('amoy', 'mumbai', 'mainnet') or path to a genesis file.",
-      "nixName": "<name>.chain",
+      "name": "chain",
+      "desc": "Name of the chain to sync ('amoy', 'mumbai', 'mainnet').",
+      "nixName": "chain",
       "type": "string",
       "value": "mainnet"
     },
     {
-      "name": "<name>.config",
-      "desc": "Path to the TOML configuration file.",
-      "nixName": "<name>.config",
+      "name": "authrpc.addr",
+      "desc": "Listening address for authenticated APIs.",
+      "nixName": "authrpc.addr",
       "type": "string",
-      "value": "/path/to/config.toml"
+      "value": "localhost"
     },
     {
-      "name": "<name>.datadir",
-      "desc": "Path of the data directory to store information.",
-      "nixName": "<name>.datadir",
-      "type": "string",
-      "value": "/var/lib/bor"
+      "name": "authrpc.port",
+      "desc": "Listening port for authenticated APIs.",
+      "nixName": "authrpc.port",
+      "type": "integer",
+      "value": 8551
     },
     {
-      "name": "<name>.datadirAncient",
-      "desc": "Data directory for ancient chain segments.",
-      "nixName": "<name>.datadirAncient",
+      "name": "authrpc.vhosts",
+      "desc": "Comma separated list of virtual hostnames from which to accept requests.",
+      "nixName": "authrpc.vhosts",
       "type": "string",
-      "value": "/var/lib/bor/ancient"
+      "value": "localhost"
     },
     {
-      "name": "<name>.dbEngine",
-      "desc": "Backing database implementation to use ('leveldb' or 'pebble').",
-      "nixName": "<name>.dbEngine",
+      "name": "http.addr",
+      "desc": "HTTP-RPC server listening interface.",
+      "nixName": "http.addr",
       "type": "string",
-      "value": "leveldb"
+      "value": "localhost"
     },
     {
-      "name": "<name>.dev",
-      "desc": "Enable developer mode with ephemeral proof-of-authority network.",
-      "nixName": "<name>.dev",
+      "name": "http.api",
+      "desc": "APIs offered over the HTTP-RPC interface.",
+      "nixName": "http.api",
+      "type": "string",
+      "value": "eth,net,web3,txpool,bor"
+    },
+    {
+      "name": "http.corsdomain",
+      "desc": "Comma separated list of domains for cross-origin requests.",
+      "nixName": "http.corsdomain",
+      "type": "string",
+      "value": "localhost"
+    },
+    {
+      "name": "http.ep-requesttimeout",
+      "desc": "Request Timeout for HTTP RPC execution pool.",
+      "nixName": "http.ep-requesttimeout",
+      "type": "string",
+      "value": "0s"
+    },
+    {
+      "name": "http.ep-size",
+      "desc": "Maximum size of workers in HTTP RPC execution pool.",
+      "nixName": "http.ep-size",
+      "type": "integer",
+      "value": 40
+    },
+    {
+      "name": "http.port",
+      "desc": "HTTP-RPC server listening port.",
+      "nixName": "http.port",
+      "type": "integer",
+      "value": 8545
+    },
+    {
+      "name": "http.rpcprefix",
+      "desc": "HTTP path prefix for JSON-RPC.",
+      "nixName": "http.rpcprefix",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "http.vhosts",
+      "desc": "Comma separated list of virtual hostnames for HTTP requests.",
+      "nixName": "http.vhosts",
+      "type": "string",
+      "value": "localhost"
+    },
+    {
+      "name": "ws.enable",
+      "desc": "Enable the WS-RPC server.",
+      "nixName": "ws.enable",
       "type": "boolean",
       "value": "false"
     },
     {
-      "name": "<name>.devGasLimit",
-      "desc": "Initial block gas limit in developer mode.",
-      "nixName": "<name>.devGasLimit",
-      "type": "integer",
-      "value": 11500000
-    },
-    {
-      "name": "<name>.devPeriod",
-      "desc": "Block period to use in developer mode (0 = mine only if transaction pending).",
-      "nixName": "<name>.devPeriod",
-      "type": "integer",
-      "value": 0
-    },
-    {
-      "name": "<name>.disableBorWallet",
-      "desc": "Disable the personal wallet endpoints.",
-      "nixName": "<name>.disableBorWallet",
-      "type": "boolean",
-      "value": "true"
-    },
-    {
-      "name": "<name>.ethRequiredBlocks",
-      "desc": "Comma separated block number-to-hash mappings to require for peering.",
-      "nixName": "<name>.ethRequiredBlocks",
+      "name": "ws.addr",
+      "desc": "WS-RPC server listening interface.",
+      "nixName": "ws.addr",
       "type": "string",
-      "value": null
+      "value": "localhost"
     },
     {
-      "name": "<name>.ethstats",
-      "desc": "Reporting URL of an ethstats service.",
-      "nixName": "<name>.ethstats",
+      "name": "ws.api",
+      "desc": "APIs offered over the WS-RPC interface.",
+      "nixName": "ws.api",
       "type": "string",
-      "value": null
+      "value": "net,web3"
     },
     {
-      "name": "<name>.gcmode",
-      "desc": "Blockchain garbage collection mode.",
-      "nixName": "<name>.gcmode",
+      "name": "ws.ep-requesttimeout",
+      "desc": "Request Timeout for WS RPC execution pool.",
+      "nixName": "ws.ep-requesttimeout",
       "type": "string",
-      "value": "full"
+      "value": "0s"
     },
     {
-      "name": "<name>.gpoBlocks",
-      "desc": "Number of recent blocks to check for gas prices.",
-      "nixName": "<name>.gpoBlocks",
+      "name": "ws.ep-size",
+      "desc": "Maximum size of workers in WS RPC execution pool.",
+      "nixName": "ws.ep-size",
       "type": "integer",
-      "value": 20
+      "value": 40
     },
     {
-      "name": "<name>.gpoIgnorePrice",
-      "desc": "Gas price below which gpo will ignore transactions.",
-      "nixName": "<name>.gpoIgnorePrice",
+      "name": "ws.origins",
+      "desc": "Origins for WebSocket requests.",
+      "nixName": "ws.origins",
+      "type": "string",
+      "value": "localhost"
+    },
+    {
+      "name": "ws.port",
+      "desc": "WS-RPC server listening port.",
+      "nixName": "ws.port",
       "type": "integer",
-      "value": 25000000000
+      "value": 8546
     },
     {
-      "name": "<name>.gpoMaxBlockHistory",
-      "desc": "Maximum block history of gas price oracle.",
-      "nixName": "<name>.gpoMaxBlockHistory",
-      "type": "integer",
-      "value": 1024
-    },
-    {
-      "name": "<name>.gpoMaxHeaderHistory",
-      "desc": "Maximum header history of gas price oracle.",
-      "nixName": "<name>.gpoMaxHeaderHistory",
-      "type": "integer",
-      "value": 1024
-    },
-    {
-      "name": "<name>.gpoMaxPrice",
-      "desc": "Maximum gas price will be recommended by gpo.",
-      "nixName": "<name>.gpoMaxPrice",
-      "type": "integer",
-      "value": 500000000000
-    },
-    {
-      "name": "<name>.gpoPercentile",
-      "desc": "Suggested gas price is the given percentile of a set of recent transaction gas prices.",
-      "nixName": "<name>.gpoPercentile",
-      "type": "integer",
-      "value": 60
-    },
-    {
-      "name": "<name>.grpcAddr",
-      "desc": "Address and port to bind the GRPC server.",
-      "nixName": "<name>.grpcAddr",
+      "name": "grpc.addr",
+      "desc": "Address for the GRPC API.",
+      "nixName": "grpc.addr",
       "type": "string",
       "value": ":3131"
     },
     {
-      "name": "<name>.identity",
-      "desc": "Name/Identity of the node.",
-      "nixName": "<name>.identity",
+      "name": "bor.heimdall",
+      "desc": "URL of Heimdall service.",
+      "nixName": "bor.heimdall",
       "type": "string",
-      "value": "PolygonNode"
+      "value": "http://0.0.0.0:1317"
     },
     {
-      "name": "<name>.keystore",
-      "desc": "Path of the directory where keystores are located.",
-      "nixName": "<name>.keystore",
-      "type": "string",
-      "value": "/var/lib/bor/keystore"
-    },
-    {
-      "name": "<name>.logLevel",
-      "desc": "Log level for the server (trace|debug|info|warn|error|crit).",
-      "nixName": "<name>.logLevel",
-      "type": "string",
-      "value": "info"
-    },
-    {
-      "name": "<name>.parallelevmEnable",
-      "desc": "Enable Block STM.",
-      "nixName": "<name>.parallelevmEnable",
-      "type": "boolean",
-      "value": "true"
-    },
-    {
-      "name": "<name>.parallelevmProcs",
-      "desc": "Number of speculative processes (cores) in Block STM.",
-      "nixName": "<name>.parallelevmProcs",
-      "type": "integer",
-      "value": 8
-    },
-    {
-      "name": "<name>.pprof",
-      "desc": "Enable the pprof HTTP server.",
-      "nixName": "<name>.pprof",
+      "name": "bor.runheimdall",
+      "desc": "Run Heimdall service as a child process.",
+      "nixName": "bor.runheimdall",
       "type": "boolean",
       "value": "false"
     },
     {
-      "name": "<name>.pprofAddr",
-      "desc": "pprof HTTP server listening interface.",
-      "nixName": "<name>.pprofAddr",
-      "type": "string",
-      "value": "127.0.0.1"
+      "name": "bor.runheimdallargs",
+      "desc": "Additional arguments for the Heimdall service.",
+      "nixName": "bor.runheimdallargs",
+      "type": "list of string",
+      "value": "[]"
     },
     {
-      "name": "<name>.pprofBlockProfileRate",
-      "desc": "Turn on block profiling with the given rate.",
-      "nixName": "<name>.pprofBlockProfileRate",
-      "type": "integer",
-      "value": 0
-    },
-    {
-      "name": "<name>.pprofMemProfileRate",
-      "desc": "Turn on memory profiling with the given rate.",
-      "nixName": "<name>.pprofMemProfileRate",
-      "type": "integer",
-      "value": 524288
-    },
-    {
-      "name": "<name>.pprofPort",
-      "desc": "pprof HTTP server listening port.",
-      "nixName": "<name>.pprofPort",
-      "type": "integer",
-      "value": 6060
-    },
-    {
-      "name": "<name>.snapshot",
-      "desc": "Enables the snapshot-database mode.",
-      "nixName": "<name>.snapshot",
+      "name": "bor.useheimdallapp",
+      "desc": "Use Heimdall app for data fetching (requires bor.runheimdall).",
+      "nixName": "bor.useheimdallapp",
       "type": "boolean",
-      "value": "true"
+      "value": "false"
     },
     {
-      "name": "<name>.stateScheme",
-      "desc": "Scheme to use for storing ethereum state ('hash' or 'path').",
-      "nixName": "<name>.stateScheme",
-      "type": "string",
-      "value": "hash"
-    },
-    {
-      "name": "<name>.syncmode",
-      "desc": "Blockchain sync mode (only 'full' sync supported by Bor).",
-      "nixName": "<name>.syncmode",
-      "type": "string",
-      "value": "full"
-    },
-    {
-      "name": "<name>.verbosity",
-      "desc": "Logging verbosity for the server (5=trace|4=debug|3=info|2=warn|1=error|0=crit).",
-      "nixName": "<name>.verbosity",
+      "name": "verbosity",
+      "desc": "Logging verbosity level (5=trace, 4=debug, 3=info, 2=warn, 1=error, 0=crit).",
+      "nixName": "verbosity",
       "type": "integer",
       "value": 3
     },
     {
-      "name": "<name>.vmdebug",
-      "desc": "Record information useful for VM and contract debugging.",
-      "nixName": "<name>.vmdebug",
-      "type": "boolean",
-      "value": "false"
+      "name": "bootNodes",
+      "desc": "List of bootnodes to connect to.",
+      "nixName": "bootNodes",
+      "type": "list of string",
+      "value": [
+        "enode://b8f1cc9c5d4403703fbf377116469667d2b1823c0daf16b7250aa576bacf399e42c3930ccfcb02c5df6879565a2b8931335565f0e8d3f8e72385ecf4a4bf160a@3.36.224.80:30303",
+        "enode://8729e0c825f3d9cad382555f3e46dcff21af323e89025a0e6312df541f4a9e73abfa562d64906f5e59c51fe6f0501b3e61b07979606c56329c020ed739910759@54.194.245.5:30303"
+      ]
     }
   ]
 }
